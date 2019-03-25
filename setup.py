@@ -45,7 +45,13 @@ MOD_NAMES = [
 def make_extension(modname):
 
     ext_path = modname.replace('.', os.path.sep) + '.pyx'
-    return Extension(modname, [ext_path], include_dirs=INCLUDE_DIR)
+    if modname == CALLER_PRE + 'algorithm':
+        ext = Extension(modname, [
+                        ext_path, 'include/em.c', 'include/ranksum.c', 'include/kfunc.c'], include_dirs=INCLUDE_DIR)
+    else:
+        ext = Extension(modname, [ext_path], include_dirs=INCLUDE_DIR)
+
+    return ext
 
 
 if __name__ == "__main__":
