@@ -48,7 +48,8 @@ class BaseType(object):
         self.qual_pvalue = 1.0 - np.exp(self.cmm.MLN10TO10 * quals)
         for i, b in enumerate(bases):
             # Individual likelihood for [A, C, G, T], one sample per row
-            if b != 'N' and b[0] not in ['-', '+']:  # ignore all the 'N' bases and indels
+            # ignore all the 'N' bases and indels
+            if b != 'N' and b[0] not in ['-', '+']:
                 self.ind_allele_likelihood.append([self.qual_pvalue[i]
                                                    if b == t else (1.0 - self.qual_pvalue[i]) / 3
                                                    for t in self.cmm.BASE])
@@ -68,11 +69,13 @@ class BaseType(object):
         ``bases``: a list like
         """
         total_depth = float(sum([self.depth[b] for b in bases]))
-        allele_frequence = np.zeros(len(self.cmm.BASE))  # [A, C, G, T] set to 0.0
+        # [A, C, G, T] set to 0.0
+        allele_frequence = np.zeros(len(self.cmm.BASE))
 
         if total_depth > 0:
             for b in bases:
-                allele_frequence[self.cmm.BASE2IDX[b]] = self.depth[b] / total_depth
+                allele_frequence[self.cmm.BASE2IDX[b]
+                                 ] = self.depth[b] / total_depth
 
         return np.array(allele_frequence)
 
@@ -111,16 +114,15 @@ class BaseType(object):
         for b in [i for i in itertools.combinations(bases, n)]:
             init_allele_frequecies = self._set_allele_frequence(b)
             if sum(init_allele_frequecies) == 0:
-                ## The coverage is empty
+                # The coverage is empty
                 continue
 
-            _, marginal_likelihood, expect_allele_freq = EM(
-                np.tile(init_allele_frequecies, (self.ind_allele_likelihood.shape[0], 1)),
-                self.ind_allele_likelihood
-            )
+            marginal_likelihood, expect_allele_freq = EM(
+                init_allele_frequecies, self.ind_allele_likelihood)
 
             bc.append(b)
-            lr.append(np.log(marginal_likelihood).sum())  # sum the marginal likelihood
+            # sum the marginal likelihood
+            lr.append(np.log(marginal_likelihood).sum())
             bp.append(expect_allele_freq)
 
         return bc, lr, bp

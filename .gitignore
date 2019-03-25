@@ -14,3 +14,5 @@ venv/
 *.egg-info/
 build/
 trash/
+
+basevar/**/*.c
