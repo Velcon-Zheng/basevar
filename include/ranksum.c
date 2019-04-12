@@ -83,7 +83,7 @@ double cRankSums(double *x, int n1, double *y, int n2)
     qsort(y, n2, sizeof(double), compare_floats);
     memcpy(xx, x, n1 * sizeof(double));
     double r1 = rankR1(xx, n1, y, n2);
-    double expected = (double)n1 * (n1 + n2 + 1) / 2.0; // fix an unexpected issue 
+    double expected = (double)n1 * (n1 + n2 + 1) / 2.0; 
     double z = (r1 - expected) / sqrt((double)n1*n2*(n1+n2+1)/12.0);
 
     free(xx);
