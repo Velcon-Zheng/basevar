@@ -1,6 +1,13 @@
-#ifndef RANKSUM_H
-#define RANKSUM_H
+#ifndef BASEVAR_RANKSUM_H
+#define BASEVAR_RANKSUM_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 double cRankSums(double *x, int n1, double *y, int n2);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
