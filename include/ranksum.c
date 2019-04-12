@@ -61,7 +61,6 @@ static double rankR1(double *x, int n1, double *y, int n2)
                 n = 0;
             }else{
                 x[i] = i + 1;
-                continue;
             }
         }
     }
